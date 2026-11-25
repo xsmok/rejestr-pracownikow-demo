@@ -18,7 +18,7 @@
     </p>
 
     <div class="mt-2 flex flex-wrap items-end justify-between gap-4">
-        <h1 class="text-xl font-semibold text-balance">{{ ucfirst($workDay->date->translatedFormat('l, j F Y')) }}</h1>
+        <h1 class="text-xl font-semibold text-balance">{{ Str::ucfirst($workDay->date->translatedFormat('l, j F Y')) }}</h1>
 
         <div class="flex flex-wrap gap-3">
             @can('update', $workDay)

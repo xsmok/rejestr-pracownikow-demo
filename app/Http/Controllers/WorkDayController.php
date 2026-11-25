@@ -56,8 +56,6 @@ class WorkDayController extends Controller
      */
     public function edit(WorkDay $workDay): View
     {
-        $workDay->load('user');
-
         return view('work-days.edit', ['workDay' => $workDay]);
     }
 

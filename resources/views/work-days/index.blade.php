@@ -4,9 +4,10 @@
 @php
     $isOwn = $employee->is(auth()->user());
     $canAdd = auth()->user()->can('create', WorkDay::class);
+    $title = $isOwn ? 'Mój czas pracy' : $employee->name;
 @endphp
 
-<x-layout :title="$isOwn ? 'Mój czas pracy' : $employee->name">
+<x-layout :title="$title">
     @unless ($isOwn)
         <p class="text-sm text-slate-500">
             <a href="{{ route('summary', ['month' => $month->format('Y-m')]) }}" class="font-medium text-indigo-700 hover:underline">Podsumowanie czasu pracy</a>
@@ -16,9 +17,9 @@
 
     <div class="mt-2 flex flex-wrap items-end justify-between gap-4">
         <div class="min-w-0">
-            <h1 class="text-xl font-semibold text-balance">{{ $isOwn ? 'Mój czas pracy' : $employee->name }}</h1>
+            <h1 class="text-xl font-semibold text-balance">{{ $title }}</h1>
             <p class="mt-1 text-sm text-slate-500">
-                {{ ucfirst($month->translatedFormat('F Y')) }} · liczba dni: {{ $workDays->count() }} · suma godzin: <x-hours :value="$workDays->sum('hours')" />
+                {{ Str::ucfirst($month->translatedFormat('F Y')) }} · liczba dni: {{ $workDays->count() }} · suma godzin: <x-hours :value="$workDays->sum('hours')" />
             </p>
         </div>
 

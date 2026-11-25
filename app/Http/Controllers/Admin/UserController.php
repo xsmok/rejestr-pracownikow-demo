@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index(): View
     {
-        return view('admin.users.index', ['users' => User::query()->orderBy('name')->get()]);
+        return view('admin.users.index', ['users' => User::orderBy('name')->get()]);
     }
 
     /**
@@ -81,7 +81,7 @@ class UserController extends Controller
             'role' => ['required', Rule::enum(Role::class)],
         ]);
 
-        if (blank($data['password'] ?? null)) {
+        if (empty($data['password'])) {
             unset($data['password']);
         }
 

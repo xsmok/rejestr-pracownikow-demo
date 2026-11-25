@@ -31,8 +31,6 @@ class CommentController extends Controller
      */
     public function edit(Comment $comment): View
     {
-        $comment->load('workDay.user');
-
         return view('comments.edit', ['comment' => $comment]);
     }
 

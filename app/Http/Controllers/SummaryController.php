@@ -28,8 +28,7 @@ class SummaryController extends Controller
 
         $onlyThisMonth = fn (Builder $query) => $query->inMonth($month);
 
-        $employees = User::query()
-            ->where('role', Role::Employee)
+        $employees = User::where('role', Role::Employee)
             ->withCount(['workDays' => $onlyThisMonth])
             ->withSum(['workDays' => $onlyThisMonth], 'hours')
             ->orderBy('name')
