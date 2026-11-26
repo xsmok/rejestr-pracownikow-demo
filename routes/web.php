@@ -11,6 +11,7 @@ use App\Http\Controllers\MyTimeController;
 use App\Http\Controllers\SummaryController;
 use App\Http\Controllers\WorkDayController;
 use App\Models\Comment;
+use App\Models\WorkDay;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -40,13 +41,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('role:supervisor,admin')->group(function () {
         Route::get('/summary', [SummaryController::class, 'index'])->name('summary');
         Route::get('/employees/{employee}/work-days', [EmployeeWorkDayController::class, 'index'])->name('employees.work-days.index');
-        Route::post('/employees/{employee}/work-days', [WorkDayController::class, 'store'])->name('employees.work-days.store');
-        Route::get('/work-days/{workDay}/edit', [WorkDayController::class, 'edit'])->name('work-days.edit');
-        Route::put('/work-days/{workDay}', [WorkDayController::class, 'update'])->name('work-days.update');
-        Route::delete('/work-days/{workDay}', [WorkDayController::class, 'destroy'])->name('work-days.destroy');
     });
 
+    // Who may add, view, change or delete a day is decided in WorkDayPolicy, the same rules the views ask with @can.
+    Route::post('/employees/{employee}/work-days', [WorkDayController::class, 'store'])
+        ->can('create', WorkDay::class)
+        ->name('employees.work-days.store');
     Route::get('/work-days/{workDay}', [WorkDayController::class, 'show'])->can('view', 'workDay')->name('work-days.show');
+    Route::get('/work-days/{workDay}/edit', [WorkDayController::class, 'edit'])->can('update', 'workDay')->name('work-days.edit');
+    Route::put('/work-days/{workDay}', [WorkDayController::class, 'update'])->can('update', 'workDay')->name('work-days.update');
+    Route::delete('/work-days/{workDay}', [WorkDayController::class, 'destroy'])->can('delete', 'workDay')->name('work-days.destroy');
 
     Route::post('/work-days/{workDay}/comments', [CommentController::class, 'store'])
         ->can('create', [Comment::class, 'workDay'])
