@@ -14,7 +14,7 @@ return [
 
     'before_or_equal' => 'Pole :attribute musi być datą nie późniejszą niż :date.',
     'confirmed' => 'Potwierdzenie pola :attribute nie zgadza się.',
-    'date' => 'Pole :attribute nie jest prawidłową datą.',
+    'date_format' => 'Pole :attribute musi mieć format :format.',
     'email' => 'Pole :attribute musi być prawidłowym adresem e-mail.',
     'enum' => 'Wybrana wartość pola :attribute jest nieprawidłowa.',
     'max' => [
@@ -47,6 +47,7 @@ return [
             'regex' => 'Miesiąc musi mieć format RRRR-MM.',
         ],
         'date' => [
+            'date_format' => 'Data musi mieć format RRRR-MM-DD.',
             'unique' => 'Ten dzień jest już wpisany dla tego pracownika.',
             'before_or_equal' => 'Data nie może być z przyszłości.',
         ],

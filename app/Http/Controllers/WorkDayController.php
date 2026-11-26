@@ -20,11 +20,11 @@ class WorkDayController extends Controller
         // Hours are recorded only for employees.
         abort_unless($employee->role === Role::Employee, 404);
 
-        // One entry per employee and day, 0.5–24 hours in half-hour steps.
+        // One entry per employee and day (date as YYYY-MM-DD), 0.5–24 hours in half-hour steps.
         $data = $request->validate([
             'date' => [
                 'required',
-                'date',
+                'date_format:Y-m-d',
                 'before_or_equal:today',
                 Rule::unique('work_days')->where('user_id', $employee->id),
             ],
@@ -68,7 +68,7 @@ class WorkDayController extends Controller
         $data = $request->validate([
             'date' => [
                 'required',
-                'date',
+                'date_format:Y-m-d',
                 'before_or_equal:today',
                 Rule::unique('work_days')->where('user_id', $workDay->user_id)->ignore($workDay),
             ],
